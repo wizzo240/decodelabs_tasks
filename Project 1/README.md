@@ -1,4 +1,4 @@
-# Decodelabs-Data-Cleaning-project-one
+# Decodelabs-Data-Cleaning-project 1
 
 Project 1 repository for the Decode Labs data analytics internship, focusing on data cleaning and preparation.
 
