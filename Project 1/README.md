@@ -37,7 +37,3 @@ Standardized all key categorical columns, including:
 ## Tools Used
 
 - Microsoft Excel
-
-## Next Steps
-
-Wrapping up the project and preparing final documentation.
