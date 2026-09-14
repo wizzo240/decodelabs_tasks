@@ -1,67 +1,88 @@
-USE decodelabs_project_3
-SHOW TABLES;
-RENAME TABLE `decode labs project 3 dataset for data analytics` TO ecommerce_sales;
+# Project 3: SQL Data Analysis Report
 
-SELECT QUERIES
-SELECT * FROM ecommerce_sales LIMIT 10;
-SELECT COUNT(*) FROM ecommerce_sales;
-SELECT DISTINCT Product
-FROM ecommerce_sales;
-SELECT DISTINCT OrderStatus
-FROM ecommerce_sales;
+## Overview
 
-FILTERING WITH WHERE
-Orders with a total price greater than 300
-SELECT OrderID, CustomerID, Product, TotalPrice
-FROM ecommerce_sales
-WHERE TotalPrice > 300;
+**Goal:** Use SQL queries to extract insights from an e-commerce sales dataset.
 
+**Tool used:** MySQL Workbench
 
-ORDERS THAT WERE CANCELLED
-SELECT OrderID, CustomerID, Product, OrderStatus
-FROM ecommerce_sales
-WHERE OrderStatus = 'Cancelled';
+**Dataset:** `ecommerce_sales` table (schema: `decodelabs_project_3`)
+Contains order-level e-commerce data including OrderID, Date, CustomerID, Product, Quantity, UnitPrice, ShippingAddress, PaymentMethod, OrderStatus, TrackingNumber, ItemsInCart, CouponCode, ReferralSource, and TotalPrice.
 
-ORDERS PAID WITH CREDIT CARD AND OVER 200 IN VALUE
-SELECT OrderID, CustomerID, PaymentMethod, TotalPrice
-FROM ecommerce_sales
-WHERE PaymentMethod = 'Credit Card' AND TotalPrice > 200;
+**Total records analyzed:** 682 orders
 
-ORDERS THAT WERE EITHER SHIPPED OR RETURNED
-SELECT OrderID, OrderStatus
-FROM ecommerce_sales
-WHERE OrderStatus = 'Shipped' OR OrderStatus = 'Returned';
+---
 
-SORTING WITH ORDER BY
-HIGHEST VALUE ORDERS FIRST 
-SELECT OrderID, CustomerID, Product, TotalPrice
-FROM ecommerce_sales
-ORDER BY TotalPrice DESC
-LIMIT 10;
+## Methodology
 
-ORDERS SORTED BY DATE, OLDERS FIRST
-SELECT OrderID, Date, TotalPrice
-FROM ecommerce_sales
-ORDER BY Date ASC;
+The analysis was performed using core SQL techniques:
+- **SELECT** statements to retrieve and inspect data
+- **WHERE** clauses to filter orders by status, payment method, and value
+- **ORDER BY** to rank results
+- **GROUP BY** combined with **COUNT, SUM, and AVG** to summarize the dataset
+- **HAVING** to filter aggregated results
 
- GROUP BY + AGGREGATIONS (COUNT, SUM, AVG)
-Total number of orders per product
-SELECT PaymentMethod, AVG(TotalPrice) AS avg_order_value FROM ecommerce_sales GROUP BY PaymentMethod
+The full set of queries used is available in `project3_analysis.sql`.
 
-TOTAL REVENUE (SUM OF TOTALPRICE) PER PRODUCT
-SELECT Product, SUM(TotalPrice) AS total_revenue
-FROM ecommerce_sales
-GROUP BY Product
-ORDER BY total_revenue DESC;
+---
 
-AVERAGE ORDER VALUE PER PAYMENT METHOD
-SELECT PaymentMethod, AVG(TotalPrice) AS avg_order_value
-FROM ecommerce_sales
-GROUP BY PaymentMethod
-ORDER BY avg_order_value DESC;
+## Key Findings
 
-NUMBER OF ORDERS PER ORDER STATUSS
-SELECT OrderStatus, COUNT(*) AS order_count
-FROM ecommerce_sales
-GROUP BY OrderStatus
-ORDER BY order_count DESC;
+### 1. Most Frequently Ordered Products
+
+| Product | Total Orders |
+|---------|--------------|
+| Tablet  | 104          |
+| Phone   | 103          |
+| Printer | 101          |
+| Desk    | 97           |
+| Laptop  | 95           |
+
+Tablets and Phones are nearly tied as the most frequently ordered items, each accounting for around 15% of all orders.
+
+### 2. Revenue by Product
+
+| Product | Total Revenue |
+|---------|---------------|
+| Phone   | $53,817.20    |
+| Tablet  | $49,542.90    |
+| Laptop  | $46,519.90    |
+| Printer | $45,719.30    |
+| Desk    | $43,228.30    |
+
+Despite Tablets having slightly more orders, **Phones generate the most total revenue**, suggesting a higher average price per unit or larger order quantities per transaction.
+
+### 3. Units Sold (Quantity) by Product
+
+| Product | Total Units Sold |
+|---------|-------------------|
+| Chair   | 249               |
+| Printer | 231               |
+| Laptop  | 230               |
+| Desk    | 220               |
+| Phone   | 214               |
+
+Interestingly, Chairs lead in total units sold even though they don't top the order-count or revenue rankings — this points to customers typically buying chairs in bulk (higher quantity per order).
+
+### 4. Average Order Value by Payment Method
+
+| Payment Method | Avg. Order Value |
+|----------------|-------------------|
+| Credit Card    | $498.14           |
+| Online         | $490.30           |
+| Cash           | $475.04           |
+| Debit Card     | $444.02           |
+| Gift Card      | $427.24           |
+
+Customers paying by **Credit Card** tend to spend the most per order on average, while **Gift Card** users spend the least — possibly because gift cards have fixed/limited balances that cap spending.
+
+---
+
+## Conclusion
+
+This analysis shows clear differences between order frequency, revenue, and unit volume across products — a reminder that "most ordered" doesn't always mean "most profitable." Phones stand out as the top revenue driver despite Tablets holding a slight edge in order count, while Chairs reveal a bulk-purchasing pattern. Payment method also correlates with spending behavior, with Credit Card transactions carrying the highest average value.
+
+## Files in this repository
+
+- `project3_analysis.sql` — full SQL script with all queries used in this analysis
+- `README.md` — this report
