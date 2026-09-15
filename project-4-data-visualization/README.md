@@ -2,7 +2,6 @@
 
 A Power BI dashboard analyzing 1,200 e-commerce orders (Jan 2023–Jun 2025) to surface revenue trends, order fulfillment patterns, and payment behavior.
 
-![Dashboard](dashboard-screenshot.png)
 
 ## Overview
 
